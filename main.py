@@ -17,7 +17,7 @@ canvas_color = (240, 240, 240)
 line_color = (10, 10, 10)
 hor_side_offset = 700
 ver_side_offset = 700
-circle_count = 6000
+circle_count = 3000
 min_circle_size = 500
 max_circle_size = 5 * min_circle_size
 
@@ -27,10 +27,13 @@ draw = ImageDraw.Draw(image, 'RGBA')
 
 for i in range(circle_count):
     circle_size = random.uniform(min_circle_size, max_circle_size)
-    circle_upper_left = (random.uniform(-circle_size, width), random.uniform(-circle_size, height))
-    circle_lower_right = sum_points(circle_upper_left, (circle_size, circle_size))
+    random_offset = (random.random(), random.random(), random.random(), random.random())
+    circle_upper_left = (random.uniform(-circle_size * random_offset[0], width - circle_size * random_offset[1]),
+                         random.uniform(-circle_size * random_offset[2], height - circle_size * random_offset[3]))
+    circle_lower_right = sum_points(circle_upper_left, (circle_size,
+                                                        circle_size))
 
-    draw.ellipse((circle_upper_left, circle_lower_right), outline=line_color, width=4)
+    draw.ellipse((circle_upper_left, circle_lower_right), outline=line_color, width=3)
 
 image_mask = Image.new('RGBA', (width, height), color=canvas_color)
 draw_mask = ImageDraw.Draw(image_mask)
